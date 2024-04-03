@@ -1,0 +1,53 @@
+/dts-v1/;
+/{
+	#address-cells = <1>;
+ 	#size-cells = <0>;
+	cpus
+	{
+	#address-cells = <1>;
+ 	#size-cells = <0>;
+		cpu@0
+		{
+			compatible = "arm, cortex-a9";
+			reg = <0x0>;
+		};
+
+		cpu@1
+		{
+			compatible = "arm, cortex-a9";
+			reg = <0x1>;
+		};
+	};
+	serial@101B1000
+	{
+		compatible = "arm, bv011";
+		reg = <0x101B1000>;
+	};
+	serial@101B2000
+	{
+		compatible = "arm, bv011";
+		reg = <0x101B2000>;
+	};
+	gpio@101B3000
+	{
+		compatible = "arm, bv061";
+		reg = <0x101B3000>;
+	};
+	spi@10180000
+	{
+		compatible = "arm, bv022";
+		reg = <0x10180000>;
+	};
+	i2c@10190000
+	{
+		compatible = "bv, bv-i2c-bus";
+		reg = <0x10190000>;
+		#address-cells = <1>;
+ 		#size-cells = <0>;
+		clock@1101000
+		{
+			compatible = "bv, ds1338";
+			reg = <0x58>;
+		};
+	};
+};
