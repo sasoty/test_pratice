@@ -50,4 +50,12 @@
 			reg = <0x58>;
 		};
 	};
+	aliases {
+      	gpio=&gpios;
+        serial0 = &serial0;
+    	};
+	chosen{
+	bootargs = "ignore_loglevel rw root=dev/nfs ip=on";
+	stdout-path="serial0:115200n8";
+	};
 };
