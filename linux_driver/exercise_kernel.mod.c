@@ -35,16 +35,24 @@ MODULE_INFO(retpoline, "Y");
 
 static const char ____versions[]
 __used __section("__versions") =
-	"\x1c\x00\x00\x00\xca\x39\x82\x5b"
-	"__x86_return_thunk\0\0"
-	"\x14\x00\x00\x00\xbb\x6d\xfb\xbd"
-	"__fentry__\0\0"
-	"\x20\x00\x00\x00\x3b\x8f\xd7\x3f"
-	"register_chrdev_region\0\0"
-	"\x24\x00\x00\x00\x33\xb3\x91\x60"
-	"unregister_chrdev_region\0\0\0\0"
 	"\x10\x00\x00\x00\x7e\x3a\x2c\x12"
 	"_printk\0"
+	"\x1c\x00\x00\x00\x48\xcf\x07\x77"
+	"__register_chrdev\0\0\0"
+	"\x18\x00\x00\x00\xf1\x7b\xac\xde"
+	"class_create\0\0\0\0"
+	"\x18\x00\x00\x00\xc4\x9d\xe2\x08"
+	"device_create\0\0\0"
+	"\x14\x00\x00\x00\xbb\x6d\xfb\xbd"
+	"__fentry__\0\0"
+	"\x1c\x00\x00\x00\xca\x39\x82\x5b"
+	"__x86_return_thunk\0\0"
+	"\x18\x00\x00\x00\x3f\xdf\x84\xc5"
+	"device_destroy\0\0"
+	"\x18\x00\x00\x00\xe8\x6d\x33\xec"
+	"class_destroy\0\0\0"
+	"\x1c\x00\x00\x00\xc0\xfb\xc3\x6b"
+	"__unregister_chrdev\0"
 	"\x18\x00\x00\x00\x86\x05\x44\xe7"
 	"module_layout\0\0\0"
 	"\x00\x00\x00\x00\x00\x00\x00\x00";
@@ -52,4 +60,4 @@ __used __section("__versions") =
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "BC5B72F0EEAE10E1EC32679");
+MODULE_INFO(srcversion, "22E0E93BD2A2C5A998A7F81");
