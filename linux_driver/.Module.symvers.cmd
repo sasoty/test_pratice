@@ -1,1 +1,1 @@
-savedcmd_/home/vm-sus/new_folder/linux_driver/Module.symvers :=  scripts/mod/modpost -m -a      -o /home/vm-sus/new_folder/linux_driver/Module.symvers -T /home/vm-sus/new_folder/linux_driver/modules.order -i Module.symvers -e 
+savedcmd_/home/vm-sus/new_folder/practicing_gitlab_output/linux_driver/Module.symvers :=  scripts/mod/modpost -m -a      -o /home/vm-sus/new_folder/practicing_gitlab_output/linux_driver/Module.symvers -T /home/vm-sus/new_folder/practicing_gitlab_output/linux_driver/modules.order -i Module.symvers -e 
