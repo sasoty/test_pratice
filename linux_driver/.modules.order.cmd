@@ -1,1 +1,1 @@
-savedcmd_/home/vm-sus/new_folder/practicing_gitlab_output/linux_driver/modules.order := {   echo /home/vm-sus/new_folder/practicing_gitlab_output/linux_driver/exercise_kernel.o; :; } > /home/vm-sus/new_folder/practicing_gitlab_output/linux_driver/modules.order
+cmd_/home/sus/new_folder/test_pratice/linux_driver/modules.order := {   echo /home/sus/new_folder/test_pratice/linux_driver/exercise_kernel.ko; :; } | awk '!x[$$0]++' - > /home/sus/new_folder/test_pratice/linux_driver/modules.order

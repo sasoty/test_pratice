@@ -1,1 +1,1 @@
-savedcmd_/home/vm-sus/new_folder/practicing_gitlab_output/linux_driver/Module.symvers :=  scripts/mod/modpost -m -a      -o /home/vm-sus/new_folder/practicing_gitlab_output/linux_driver/Module.symvers -T /home/vm-sus/new_folder/practicing_gitlab_output/linux_driver/modules.order -i Module.symvers -e 
+cmd_/home/sus/new_folder/test_pratice/linux_driver/Module.symvers := sed 's/ko$$/o/' /home/sus/new_folder/test_pratice/linux_driver/modules.order | scripts/mod/modpost -m -a  -o /home/sus/new_folder/test_pratice/linux_driver/Module.symvers -e -i Module.symvers   -T -
