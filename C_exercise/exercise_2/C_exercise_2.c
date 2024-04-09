@@ -3,17 +3,9 @@
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
-#include <mqueue.h>
 #include <pthread.h>
 
-#define MSQ_NAME "/msg_name"
-
-typedef struct User {
-    char name[20];
-    int age;
-    char phone[20];
-    char filename[48];
-} User;
+#define MAX_PHONE_LENGTH 20
 
 int valid_check(char phone[10])
 {
@@ -21,14 +13,21 @@ int valid_check(char phone[10])
     return ret;
 }
 
+typedef struct User {
+    char name[20];
+    int age;
+    char phone[MAX_PHONE_LENGTH];
+    char filename[48];
+} User;
+
+User user;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+int ready = 0;
+
 void *thread1(void *arg) {
-    mqd_t mq = *((mqd_t *)arg);
-    struct mq_attr attr;
-    mq_getattr(mq, &attr);
-
-    User user;
-
     while (1) {
+        pthread_mutex_lock(&mutex);
         printf("Enter name: ");
         scanf("%s", user.name);
         printf("Enter age: ");
@@ -38,33 +37,32 @@ void *thread1(void *arg) {
         printf("Enter filename: ");
         scanf("%s", user.filename);
 
-        mq_send(mq, (char *)&user, sizeof(User), 0);
-    }
+        ready = 1;
+        pthread_cond_signal(&cond);
+        pthread_mutex_unlock(&mutex);
 
+
+        sleep(1);
+    }
     pthread_exit(NULL);
 }
 
 void *thread2(void *arg) {
-    mqd_t mq = *((mqd_t *)arg);
-    struct mq_attr attr;
-    mq_getattr(mq, &attr);
-
-    User user;
+    
     char buffer[16];
-
     while (1) {
-        mq_receive(mq, (char *)&user, sizeof(User), NULL);
+        pthread_mutex_lock(&mutex);
+        while (!ready) {
+            
+            pthread_cond_wait(&cond, &mutex);
+        }
 
-        // Check if phone number is valid
         if (strlen(user.phone) == 10 && valid_check(user.phone)) {
-    printf("Valid phone number: %s\n", user.phone);
-
-            // Open the image file
+            printf("Valid phone number: %s\n", user.phone);
             int imagefile = open(user.filename, O_RDONLY);
             if (imagefile < 0) {
                 printf("Error opening file: %s\n", user.filename);
             } else {
-                // Read the first 16 bytes of the image file into buffer
                 read(imagefile, buffer, 16);
                 printf("First 16 bytes of image: %s\n", buffer);
                 close(imagefile);
@@ -72,30 +70,27 @@ void *thread2(void *arg) {
         } else {
             printf("Invalid phone number: %s\n", user.phone);
         }
-    }
 
+
+        ready = 0;
+        pthread_mutex_unlock(&mutex);
+
+        sleep(1);
+    }
     pthread_exit(NULL);
 }
 
 int main() {
     pthread_t t1_id, t2_id;
-    mqd_t mq;
-    struct mq_attr attr;
-    attr.mq_flags = 0;
-    attr.mq_maxmsg = 10;
-    attr.mq_msgsize = sizeof(User);
 
-    mq_unlink(MSQ_NAME); // Remove any existing message queue with the same name
-    mq = mq_open(MSQ_NAME, O_RDWR | O_CREAT, 0666, &attr);
-
-    pthread_create(&t1_id, NULL, &thread1, (void *)&mq);
-    pthread_create(&t2_id, NULL, &thread2, (void *)&mq);
+    pthread_create(&t1_id, NULL, &thread1, NULL);
+    pthread_create(&t2_id, NULL, &thread2, NULL);
 
     pthread_join(t1_id, NULL);
     pthread_join(t2_id, NULL);
 
-    mq_close(mq);
-    mq_unlink(MSQ_NAME); 
+    pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&cond);
 
     return 0;
 }
